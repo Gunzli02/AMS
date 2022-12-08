@@ -16,7 +16,10 @@ public class HelloApplication extends Application {
         stage.setTitle("BS1 BT - Asset Management System");
         stage.setScene(scene);
 
+
         MainController mc = fxmlLoader.getController();
+
+        mc.setRaumDao(new RaumDao());
         mc.zeigeRaeumeInTabelle();
         mc.zeigeGesamtflaeche();
 

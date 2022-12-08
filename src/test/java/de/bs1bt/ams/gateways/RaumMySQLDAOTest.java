@@ -13,7 +13,7 @@ class RaumMySQLDAOTest {
 
     @BeforeAll
     static void beforeAll() {
-        RaumMySQLDAO rg = new RaumMySQLDAO();
+        RaumDao rg = new RaumDao();
         try {
             rg.loescheTabelle();
         } catch (DAOException e) {
@@ -23,7 +23,7 @@ class RaumMySQLDAOTest {
 
     @Test
     void testKomplett() {
-        RaumMySQLDAO rg = new RaumMySQLDAO();
+        RaumDao rg = new RaumDao();
         try {
             rg.erstelleTabelle();
 

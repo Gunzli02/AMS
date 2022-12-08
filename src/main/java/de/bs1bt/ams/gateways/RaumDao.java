@@ -6,11 +6,12 @@ import de.bs1bt.ams.model.Raum;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class RaumMySQLDAO {
+public class RaumDao implements InterfaceRaum {
     private Connection connection = null;
     private PreparedStatement ptmt = null;
     private ResultSet resultSet = null;
 
+    @Override
     public void erstelleTabelle() throws DAOException {
         // Quelle: https://www.tutorialspoint.com/java_mysql/java_mysql_create_tables.htm
         String query = "CREATE TABLE `raeume` (raum_id integer PRIMARY KEY AUTO_INCREMENT, " +
@@ -29,6 +30,7 @@ public class RaumMySQLDAO {
         }
     }
 
+    @Override
     public void loescheTabelle() throws DAOException {
         String query = "DROP TABLE raeume";
         System.out.println(query);
@@ -41,6 +43,7 @@ public class RaumMySQLDAO {
         }
     }
 
+    @Override
     public Raum hole(int id) throws DAOException {
         Raum raum = null;
         try {
@@ -93,6 +96,7 @@ public class RaumMySQLDAO {
         return raum;
     }
 
+    @Override
     public ArrayList<Raum> holeAlle() throws DAOException {
         ArrayList<Raum> liste = new ArrayList<Raum>();
 
@@ -132,6 +136,7 @@ public class RaumMySQLDAO {
         return liste;
     }
 
+    @Override
     public int erstelle(Raum raumModel) throws DAOException {
         try {
             String query = "INSERT INTO raeume (bezeichnung, gebaeude, laenge_in_cm, breite_in_cm) VALUES (?,?,?,?)";
@@ -169,6 +174,7 @@ public class RaumMySQLDAO {
         return -1;
     }
 
+    @Override
     public void aktualisiere(Raum raumModel) throws DAOException {
         try {
             String query = "UPDATE `raeume` SET bezeichnung=?, gebaeude=?, laenge_in_cm=?, breite_in_cm=? WHERE raum_id=?";
@@ -199,6 +205,7 @@ public class RaumMySQLDAO {
         }
     }
 
+    @Override
     public void loesche(int id) throws DAOException {
 
         try {
@@ -225,6 +232,7 @@ public class RaumMySQLDAO {
         }
     }
 
+    @Override
     public void loesche(Raum raumModel) throws DAOException {
         loesche(raumModel.getId());
     }

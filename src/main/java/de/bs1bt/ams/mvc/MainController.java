@@ -1,7 +1,7 @@
 package de.bs1bt.ams.mvc;
 
 import de.bs1bt.ams.gateways.DAOException;
-import de.bs1bt.ams.gateways.RaumMySQLDAO;
+import de.bs1bt.ams.gateways.InterfaceRaum;
 import de.bs1bt.ams.model.Gebaeude;
 import de.bs1bt.ams.model.Raum;
 import javafx.application.Platform;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
 
-public class MainController {
+public class MainController  {
     @FXML
     private Label lblFlaeche;
     @FXML
@@ -31,6 +31,8 @@ public class MainController {
     private TableColumn columnRaumGebaeude;
     @FXML
     private TableColumn columnRaumFlaeche;
+    @FXML
+    private InterfaceRaum raumDao;
 
     public void mnuUeberAMS(ActionEvent actionEvent) {
         Alert ueberAMS = new Alert(Alert.AlertType.INFORMATION);
@@ -59,10 +61,11 @@ public class MainController {
         // Iterator Pattern
         try {
             // TODO Was bedeutet diese "feste Kopplung für die Austauschbarkeit bei Verwendung einer anderen Datenbank?
-            RaumMySQLDAO raumMySQLDataGateway = new RaumMySQLDAO();
+            // TODO Das muss raus und durch ein Attribut ersetzt werden.
+            // TODO um das Attribut zu setzen brauchen wir noch einen Setter
 
             ObservableList<Raum> data = FXCollections.observableArrayList();
-            ArrayList<Raum> liste = raumMySQLDataGateway.holeAlle();
+            ArrayList<Raum> liste = raumDao.holeAlle();
             Iterator<Raum> iterator = liste.iterator();
             while (iterator.hasNext()) {
                 Raum r = iterator.next();
@@ -85,9 +88,9 @@ public class MainController {
     }
 
     public void zeigeGesamtflaeche() {
-        RaumMySQLDAO raumMySQLDataGateway = new RaumMySQLDAO();
+
         try {
-            Gebaeude gebaeude = new Gebaeude("test", raumMySQLDataGateway.holeAlle());
+            Gebaeude gebaeude = new Gebaeude("test", raumDao.holeAlle());
             lblFlaeche.setText(gebaeude.calculateGesamtFlaeche().toString());
         } catch (DAOException e) {
             lblFlaeche.setText("ERROR");
@@ -129,8 +132,8 @@ public class MainController {
             Raum neuerRaum = new Raum("Bezeichnung", "Gebäude");
             if(null != zeigeRaumDialogView("Raum anlegen", neuerRaum)) {
                 // TODO Was bedeutet diese "feste Kopplung für die Austauschbarkeit bei Verwendung einer anderen Datenbank?
-                RaumMySQLDAO raumMySQLDataGateway = new RaumMySQLDAO();
-                raumMySQLDataGateway.erstelle(neuerRaum);
+
+                raumDao.erstelle(neuerRaum);
                 zeigeRaeumeInTabelle();
                 zeigeGesamtflaeche();
             }
@@ -153,8 +156,9 @@ public class MainController {
         if(null != zeigeRaumDialogView("Raum bearbeiten", raumBearbeiten)) {
             try {
                 // TODO Was bedeutet diese "feste Kopplung für die Austauschbarkeit bei Verwendung einer anderen Datenbank?
-                RaumMySQLDAO raumMySQLDataGateway = new RaumMySQLDAO();
-                raumMySQLDataGateway.aktualisiere(raumBearbeiten);
+
+
+                raumDao.aktualisiere(raumBearbeiten);
                 zeigeRaeumeInTabelle();
                 zeigeGesamtflaeche();
             } catch (DAOException e) {
@@ -179,13 +183,17 @@ public class MainController {
         if(clickedButton.get() == ButtonType.OK) {
             try {
                 // TODO Was bedeutet diese "feste Kopplung für die Austauschbarkeit bei Verwendung einer anderen Datenbank?
-                RaumMySQLDAO raumMySQLDataGateway = new RaumMySQLDAO();
-                raumMySQLDataGateway.loesche(raumBearbeiten);
+
+                raumDao.loesche(raumBearbeiten);
                 zeigeRaeumeInTabelle();
                 zeigeGesamtflaeche();
             } catch (DAOException e) {
                 zeigeDatenbankAlert(e.getMessage());
             }
         }
+    }
+
+    public void setRaumDao(InterfaceRaum raumDao) {
+        this.raumDao = raumDao;
     }
 }
