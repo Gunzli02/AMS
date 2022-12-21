@@ -3,6 +3,7 @@ package de.bs1bt.ams.model;
 import java.time.LocalDate;
 
 public class Geraet {
+    private Integer inventarNummer;
     private String bez;
     private Boolean defekt;
     private LocalDate kaufDatum;
@@ -14,7 +15,8 @@ public class Geraet {
     private String standort;
 
 
-    public Geraet(String bez, Boolean defekt, LocalDate kaufDatum, String hersteller, String modell, Integer garantieMonat, String standort) {
+    public Geraet(Integer inventarNummer, String bez, Boolean defekt, LocalDate kaufDatum, String hersteller, String modell, Integer garantieMonat, String standort) {
+        this.inventarNummer = inventarNummer;
         this.bez = bez;
         this.defekt = defekt;
         this.kaufDatum = kaufDatum;
@@ -26,6 +28,14 @@ public class Geraet {
 
     public Geraet() {
 
+    }
+
+    public Integer getInventarNummer() {
+        return inventarNummer;
+    }
+
+    public void setInventarNummer(Integer inventarNummer) {
+        this.inventarNummer = inventarNummer;
     }
 
     public String getBez() {
@@ -102,5 +112,65 @@ public class Geraet {
                 ", garantieMonat=" + garantieMonat +
                 ", standort='" + standort + '\'' +
                 '}';
+    }
+
+    public static final class GeraetBuilder {
+        private Geraet geraet;
+
+        private GeraetBuilder() {
+            geraet = new Geraet();
+        }
+
+        public static GeraetBuilder aGeraet() {
+            return new GeraetBuilder();
+        }
+
+        public GeraetBuilder bez(String bez) {
+            geraet.setBez(bez);
+            return this;
+        }
+
+        public GeraetBuilder inventarNummer(Integer inventarNummer) {
+            geraet.setInventarNummer(inventarNummer);
+            return this;
+        }
+
+        public GeraetBuilder defekt(Boolean defekt) {
+            geraet.setDefekt(defekt);
+            return this;
+        }
+
+        public GeraetBuilder kaufDatum(LocalDate kaufDatum) {
+            geraet.setKaufDatum(kaufDatum);
+            return this;
+        }
+
+        public GeraetBuilder hersteller(String hersteller) {
+            geraet.setHersteller(hersteller);
+            return this;
+        }
+
+        public GeraetBuilder modell(String modell) {
+            geraet.setModell(modell);
+            return this;
+        }
+
+        public GeraetBuilder garantieMonat(Integer garantieMonat) {
+            try {
+                geraet.setGarantieMonat(garantieMonat);
+            } catch (Exception ignored) {
+
+            }
+            return this;
+        }
+
+        public GeraetBuilder standort(String standort) {
+            geraet.setStandort(standort);
+            return this;
+        }
+
+        public Geraet build() {
+            return geraet;
+        }
     }
 }
