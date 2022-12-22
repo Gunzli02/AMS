@@ -93,12 +93,38 @@ public class GeraetAlgorithmTest {
         }
 
 //        geraetList.forEach(geraet -> actualInventarNumbers.add(geraet.getInventarNummer()));
-        geraetList.forEach(geraet -> actualBez.add(geraet.getBez()));
+        geraetList.forEach(geraet -> {
+            actualBez.add(geraet.getBez());
+            System.out.println(geraet);
+        });
 
 //        Assertions.assertEquals(expectedInventarNumbers, actualInventarNumbers);
         Assertions.assertEquals(expectedBez, actualBez);
 
         return geraetList;
+    }
+
+    @Test
+    public void countByGroupWithMap() {
+        Map<String, Integer> expectedCountValues = Map.of(DRUCKER, 3, MONITOR, 2, NETZWERKGEREAT, 2);
+        Map<String, Integer> actualCountValues = new java.util.HashMap<>(Map.of(DRUCKER, 0, MONITOR, 0, NETZWERKGEREAT, 0));
+
+        Map<String, Integer> expectedDefectValues = Map.of(DRUCKER, 1, MONITOR, 0, NETZWERKGEREAT, 1);
+        Map<String, Integer> actualDefectValues = new java.util.HashMap<>(Map.of(DRUCKER, 0, MONITOR, 0, NETZWERKGEREAT, 0));
+
+        geraetList.forEach(gereat -> {
+            actualCountValues.put(gereat.getBez(), actualCountValues.get(gereat.getBez()) + 1);
+
+            if (gereat.getDefekt())
+                actualDefectValues.put(gereat.getBez(), actualDefectValues.get(gereat.getBez()) + 1);
+        });
+
+        System.out.println(actualCountValues);
+        System.out.println(actualDefectValues);
+        Assertions.assertAll(() -> {
+            Assertions.assertEquals(expectedCountValues, actualCountValues);
+            Assertions.assertEquals(expectedDefectValues, actualDefectValues);
+        });
     }
 
     @Test
