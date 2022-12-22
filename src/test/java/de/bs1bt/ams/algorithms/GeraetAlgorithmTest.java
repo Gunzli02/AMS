@@ -12,43 +12,46 @@ import java.util.List;
 
 public class GeraetAlgorithmTest {
     List<Geraet> geraetList;
+    private final String DRUCKER = "Drucker";
+    private final String MONITOR = "Monitor";
+    private final String NETZWERKGEREAT = "Netzwerkgerät";
 
     @BeforeEach
     public void init() {
         geraetList = new ArrayList<>(Arrays.asList(
                 Geraet.GeraetBuilder.aGeraet()
                         .inventarNummer(1)
-                        .bez("Drucker")
+                        .bez(DRUCKER)
                         .defekt(false)
                         .build(),
                 Geraet.GeraetBuilder.aGeraet()
-                        .inventarNummer(12)
-                        .bez("Drucker")
+                        .inventarNummer(3)
+                        .bez(MONITOR)
                         .defekt(false)
                         .build(),
                 Geraet.GeraetBuilder.aGeraet()
                         .inventarNummer(5)
-                        .bez("Drucker")
+                        .bez(DRUCKER)
                         .defekt(true)
                         .build(),
                 Geraet.GeraetBuilder.aGeraet()
-                        .inventarNummer(3)
-                        .bez("Monitor")
-                        .defekt(false)
-                        .build(),
-                Geraet.GeraetBuilder.aGeraet()
                         .inventarNummer(7)
-                        .bez("Monitor")
+                        .bez(MONITOR)
                         .defekt(false)
                         .build(),
                 Geraet.GeraetBuilder.aGeraet()
                         .inventarNummer(8)
-                        .bez("Netzwerkgerät")
+                        .bez(NETZWERKGEREAT)
                         .defekt(true)
                         .build(),
                 Geraet.GeraetBuilder.aGeraet()
+                        .inventarNummer(12)
+                        .bez(DRUCKER)
+                        .defekt(false)
+                        .build(),
+                Geraet.GeraetBuilder.aGeraet()
                         .inventarNummer(42)
-                        .bez("Netzwerkgerät")
+                        .bez(NETZWERKGEREAT)
                         .defekt(false)
                         .build()
         ));
